@@ -69,7 +69,7 @@ void inicializa_interrupciones()
 /* ---------------------------------------------------------------- */
 /* candy1_main.c : función principal main() para test de tarea 1E 	*/
 /* ---------------------------------------------------------------- */
-/* #define NUMTESTS 14
+/*#define NUMTESTS 14
 short nmap[] = {4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 8};
 short posX[] = {0, 0, 0, 0, 4, 4, 4, 0, 0, 5, 4, 1, 1, 1};
 short posY[] = {2, 2, 2, 2, 4, 4, 4, 0, 0, 0, 4, 3, 3, 5};
@@ -87,7 +87,7 @@ int main(void)
 	level = nmap[0];
 	actualizar_contadores(1);
 	copia_mapa(matrix, level);
-	escribe_matriz_debug(matrix);
+	escribe_matriz(matrix);
 	do							// bucle principal de pruebas
 	{
 		printf("\x1b[39m\x1b[2;0H test %d: posXY (%d, %d), c.ori %d",
@@ -116,15 +116,15 @@ int main(void)
 				level = nmap[ntest];		// del número de mapa actual,
 				actualizar_contadores(1);		// cambiar el mapa actual
 				copia_mapa(matrix, level);
-				escribe_matriz_debug(matrix);
+				escribe_matriz(matrix);
 			}
 		}
 	} while (ntest < NUMTESTS);		// bucle de pruebas
 	printf("\x1b[38m\x1b[5;19H (fin tests)");
 	do { swiWaitForVBlank(); } while(1);	// bucle infinito
 	return(0);
-}
-*/
+}*/
+
 /* Programa principal: control general del juego */
 int main(void)
 {
@@ -152,11 +152,11 @@ int main(void)
 	{
 		if (initializing)		//////	SECCIÓN DE INICIALIZACIÓN	//////
 		{
-			inicializa_matriz(matrix, level);
-			//copia_mapa(matrix, 8);
+			//inicializa_matriz(matrix, level);
+			copia_mapa(matrix, 8);
 			genera_sprites(matrix);
-			genera_mapa1(matrix);
-			genera_mapa2(matrix);
+			//genera_mapa1(matrix);
+			//genera_mapa2(matrix);
 			escribe_matriz(matrix);
 			retardo(5);
 			initializing = 0;
@@ -164,7 +164,7 @@ int main(void)
 			change = 0;
 			lapse = 0;
 			points = pun_obj[level];
-			if (hay_secuencia(matrix))			// si hay secuencias
+			/*if (hay_secuencia(matrix))			// si hay secuencias
 			{
 				elimina_secuencias(matrix, mat_mar);	// eliminarlas
 				points += calcula_puntuaciones(mat_mar);
@@ -172,7 +172,7 @@ int main(void)
 				falling = 1;							// iniciar bajada
 				fall_init = 1;
 			}
-			else change = 1;					//sino, revisar estado matriz
+			else change = 1;*/					//sino, revisar estado matriz
 			movements = max_mov[level];
 			gelees = contar_gelatinas(matrix);
 			actualizar_contadores(15);
@@ -188,7 +188,7 @@ int main(void)
 			}
 			else								// si no está bajando
 			{
-				if (hay_secuencia(matrix))		// si hay secuencias
+				/*if (hay_secuencia(matrix))		// si hay secuencias
 				{
 					elimina_secuencias(matrix, mat_mar);	// eliminarlas
 					points += calcula_puntuaciones(mat_mar);
@@ -197,7 +197,7 @@ int main(void)
 					gelees = contar_gelatinas(matrix);
 					actualizar_contadores(10);
 				}
-				else change = 1;				// sino, revisar estado matriz
+				else change = 1;*/				// sino, revisar estado matriz
 			}
 			escribe_matriz(matrix);			// visualiza bajadas o eliminaciones
 		}
@@ -207,7 +207,7 @@ int main(void)
 			{
 				intercambia_posiciones(matrix, mX, mY, dX, dY);
 				escribe_matriz(matrix);	  // muestra el movimiento por pantalla
-				if (hay_secuencia(matrix))	// si el movimiento es posible
+				/*if (hay_secuencia(matrix))	// si el movimiento es posible
 				{
 					elimina_secuencias(matrix, mat_mar);
 					borra_puntuaciones();
@@ -222,7 +222,8 @@ int main(void)
 				else						// si no es posible,
 				{							// deshacer el cambio
 					intercambia_posiciones(matrix, mX, mY, dX, dY);
-				}
+				}*/
+				intercambia_posiciones(matrix, mX, mY, dX, dY);
 				escribe_matriz(matrix);	// muetra las eliminaciones o el retorno
 			}
 			while (keysHeld() & KEY_TOUCH)		// esperar a liberar la
@@ -298,13 +299,13 @@ int main(void)
 		{
 			if (lapse == 192) 		// a los 8 segundos sin actividad (aprox.)
 			{
-				sugiere_combinacion(matrix, pos_sug);
+				//sugiere_combinacion(matrix, pos_sug);
 				borra_puntuaciones();
 			}
 			if ((lapse % 64) == 0)		// cada segundo (aprox.)
 			{
-				reducir_elementos(matrix);
-				aumentar_elementos(matrix);
+				//reducir_elementos(matrix);
+				//aumentar_elementos(matrix);
 			}
 		}
 	} while (1);				// bucle infinito

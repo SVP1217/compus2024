@@ -31,8 +31,32 @@ gelatina mat_gel[ROWS][COLUMNS];	// matriz de gelatinas
 	por parámetro (independientemente de los códigos de gelatinas).*/
 void genera_sprites(char mat[][COLUMNS])
 {
-
-
+	int i,j;
+	n_sprites = 0;
+	
+	for (i=0; i<ROWS*COLUMNS; i++)
+	{
+		vect_elem[i].ii=-1;
+	}
+	SPR_ocultarSprites(128);
+	for (int i=0; i<ROWS; i++)
+	{
+		for (j=0; j<COLUMNS; j++)
+		{
+			if ((mat[i][j]>0 && mat[i][j]<7) || (mat[i][j]>8 && mat[i][j]<15) || mat[i][j]>16)
+			{
+				
+				crea_elemento(mat[i][j]&0x7, i, j);
+				n_sprites++;
+			}
+		}
+	}
+	for (i=0; i<ROWS*COLUMNS; i++)
+	{
+		SPR_fijarPrioridad(i,1);
+	}
+	swiWaitForVBlank();
+	SPR_actualizarSprites(OAM,128);
 }
 
 
@@ -86,13 +110,13 @@ void ajusta_imagen3(int ibg)
 				generando el fondo 3 y fijando la transparencia entre fondos.*/
 void init_grafA()
 {
-	int bg1A, bg2A, bg3A;
+//	int bg1A, bg2A, bg3A;
 
 	videoSetMode(MODE_3_2D | DISPLAY_SPR_1D_LAYOUT | DISPLAY_SPR_ACTIVE);
 	
 // Tarea 2Aa:
 	// reservar banco F para sprites, a partir de 0x06400000
-
+		vramSetBankF(VRAM_F_MAIN_SPRITE_0x06400000);
 // Tareas 2Ba y 2Ca:
 	// reservar banco E para fondos 1 y 2, a partir de 0x06000000
 
@@ -106,7 +130,8 @@ void init_grafA()
 	// cargar las baldosas de la variable SpritesTiles[] a partir de la
 	// dirección virtual de memoria gráfica para sprites, y cargar los colores
 	// de paleta asociados contenidos en  la variable SpritesPal[]
-
+		dmaCopy(SpritesTiles, (unsigned int *)0X06400000, sizeof(SpritesTiles)); // copiar baldosas a 0x06400000=SPRITE_GFX, por tanto el desplazamiento de baldosas = 0 cuando bg init,
+		dmaCopy(SpritesPal, (unsigned int *) 0x05000200, sizeof(SpritesPal));	//  Sprite Palette display engine A =0x05000200 = SPRITE_PALETTE
 
 
 // Tarea 2Ba:
