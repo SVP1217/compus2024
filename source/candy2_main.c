@@ -69,7 +69,7 @@ void inicializa_interrupciones()
 /* ---------------------------------------------------------------- */
 /* candy1_main.c : función principal main() para test de tarea 1E 	*/
 /* ---------------------------------------------------------------- */
-#define NUMTESTS 14
+/* #define NUMTESTS 14
 short nmap[] = {4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 8};
 short posX[] = {0, 0, 0, 0, 4, 4, 4, 0, 0, 5, 4, 1, 1, 1};
 short posY[] = {2, 2, 2, 2, 4, 4, 4, 0, 0, 0, 4, 3, 3, 5};
@@ -124,9 +124,9 @@ int main(void)
 	do { swiWaitForVBlank(); } while(1);	// bucle infinito
 	return(0);
 }
-
+*/
 /* Programa principal: control general del juego */
-int main2(void)
+int main(void)
 {
 	int lapse = 0;				// contador de tiempo sin actividad del usuario
 	int change = 0;				// =1 indica que ha habido cambios en la matriz

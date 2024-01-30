@@ -275,8 +275,8 @@ desactiva_escalado:
 @;		R1 :	fila del elemento
 @;		R2 :	columna del elemento
 @;		R3 :	índice de metabaldosa (imeta)
-	.global fija_metabaldosa
-fija_metabaldosa:
+	.global fijar_metabaldosa
+fijar_metabaldosa:
 		push {r1-r10, lr}
 		
 		mov r4, #MTOTAL
