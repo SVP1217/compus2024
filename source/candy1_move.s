@@ -1,8 +1,8 @@
 @;=                                                         	      	=
 @;=== candy1_move: rutinas para contar repeticiones y bajar elementos ===
 @;=                                                          			=
-@;=== Programador tarea 1E: xxx.xxx@estudiants.urv.cat				  ===
-@;=== Programador tarea 1F: yyy.yyy@estudiants.urv.cat				  ===
+@;=== Programador tarea 1E: sergi.vives@estudiants.urv.cat				  ===
+@;=== Programador tarea 1F: sergi.vives@estudiants.urv.cat				  ===
 @;=                                                         	      	=
 
 
@@ -40,78 +40,77 @@
 	.global cuenta_repeticiones
 cuenta_repeticiones:
 		push {r1-r11,lr}
-		@;Seccio ENTRADA
-		mov r4, #1 					@;r4: repeticions de l'element=1
-		mov r10, #COLUMNS 			@;r10 registre temporal per a guardar el valor de la constant COLUMNS
-		mla r7, r1, r10, r2 		@;Obtenim a r7 i*COLUMNS + j
-		add r6, r7, r0 				@;Obtenim a r6 i*COLUMNS+j+@matriu, obtenint la direcció a la que apunta el primer element
-		ldrb r8, [r6]				@;Carreguem a registres el contingut de la posició actual de la matriu
-		and r5, r8, #0x00000007		@;Fem una màscara, posant tots els bits a 0 excepte els 3 ultims que mantindran el seu valor a r5
-		cmp r3, #1					@;comparem ori amb 1
-		bgt .Mesgran				@;si es mes gran es 2 o 3 ves a mes gran
-		beq .Sud					@;Si es 1 vol dir que ori es sud  i ves a sud
-		@;Seccio EST
+		@; Sección ENTRADA
+		mov r4, #1 					@; r4: repeticiones del elemento = 1
+		mov r10, #COLUMNS 			@; r10 registro temporal para guardar el valor de la constante COLUMNS
+		mla r7, r1, r10, r2 		@; Obtenemos en r7 i*COLUMNS + j
+		add r6, r7, r0 				@; Obtenemos en r6 i*COLUMNS+j+@matriu, obteniendo la dirección a la que apunta el primer elemento
+		ldrb r8, [r6]				@; Cargamos a registros el contenido de la posición actual de la matriz
+		and r5, r8, #0x00000007		@; Hacemos una máscara, poniendo todos los bits a 0 excepto los 3 últimos que mantendrán su valor en r5
+		cmp r3, #1					@; Comparamos ori con 1
+		bgt .Mesgran				@; Si es mayor es 2 o 3 ve a más grande
+		beq .Sud					@; Si es 1 significa que ori es sur y ve a sur
+		@; Sección EST
 		.Est:
 		mov r11, #COLUMNS
 		sub r11, #1
-		cmp r2, r11					@;Comparem amb COLUMNS
-		bge .Exit					@;Si es mes gran o igual ves a la seccio de sortida
-		add r6, #1 					@;Passem al següent element
-		add r2, #1					@;Modifiquem l'index sumant 1
-		ldrb r8, [r6]				@;Carreguem a r8 el contingut de memoria al que apunta r6 (següent element)
-		and r7, r8, #0x00000007		@;Tres bits de menys pes de l'element actual
-		cmp r5, r7					@;Comparem els tres bits de menys pes de l'element actual amb el primer element
-		bne .Exit					@;Si son diferents ves a la seccio exit
-		add r4, #1					@;Afegeix repeticio perque son iguals
+		cmp r2, r11					@; Comparamos con COLUMNS
+		bge .Exit					@; Si es mayor o igual ve a la sección de salida
+		add r6, #1 					@; Pasamos al siguiente elemento
+		add r2, #1					@; Modificamos el índice sumando 1
+		ldrb r8, [r6]				@; Cargamos a r8 el contenido de memoria al que apunta r6 (siguiente elemento)
+		and r7, r8, #0x00000007		@; Tres bits de menos peso del elemento actual
+		cmp r5, r7					@; Comparamos los tres bits de menos peso del elemento actual con el primer elemento
+		bne .Exit					@; Si son diferentes ve a la sección exit
+		add r4, #1					@; Añade repetición porque son iguales
 		b .Est
 		.Sud:
-		@;Seccio SUD
+		@; Sección SUR
 		mov r11, #ROWS
 		sub r11, #1
-		cmp r1, r11					@;Comparem amb ROWS
-		bge .Exit					@;Si es mes gran o igual ves a la seccio de sortida
-		mov r8, #COLUMNS			@;Carreguem el valor de COLUMNS a r8
-		add r6, r8		 			@;Passem al següent element
-		add r1, #1					@;Modifiquem l'index sumant 1
-		ldrb r8, [r6]				@;Carreguem a r8 el contingut de memoria al que apunta r6 (següent element)
-		and r7, r8, #0x00000007		@;Tres bits de menys pes de l'element actual a r7
-		cmp r5, r7					@;Comparem els tres bits de menys pes de l'element actual amb el primer element
-		bne .Exit					@;Si son diferents ves a la seccio exit
-		add r4, #1					@;Afegeix repeticio perque son iguals
-		b .Sud						@;Torna a començar el bucle de recorregut
+		cmp r1, r11					@; Comparamos con ROWS
+		bge .Exit					@; Si es mayor o igual ve a la sección de salida
+		mov r8, #COLUMNS			@; Cargamos el valor de COLUMNS a r8
+		add r6, r8		 			@; Pasamos al siguiente elemento
+		add r1, #1					@; Modificamos el índice sumando 1
+		ldrb r8, [r6]				@; Cargamos a r8 el contenido de memoria al que apunta r6 (siguiente elemento)
+		and r7, r8, #0x00000007		@; Tres bits de menos peso del elemento actual a r7
+		cmp r5, r7					@; Comparamos los tres bits de menos peso del elemento actual con el primer elemento
+		bne .Exit					@; Si son diferentes ve a la sección exit
+		add r4, #1					@; Añade repetición porque son iguales
+		b .Sud						@; Vuelve a empezar el bucle de recorrido
 		.Mesgran:
 		cmp r3, #2
 		beq .Oest
-		@;Seccio NORD
-		.Nord:
-		cmp r1, #0					@;Comparem amb 0
-		ble .Exit					@;Si es mes petit o igual ves a la seccio de sortida
-		mov r8, #COLUMNS			@;Carreguem el valor de COLUMNS a r8
-		sub r6, r8					@;Passem al següent element
-		sub r1, #1					@;Modifiquem l'index restant 1
-		ldrb r8, [r6]				@;Carreguem a r8 el contingut de memoria al que apunta r6 (següent element)
-		and r7, r8, #0x00000007		@;Tres bits de menys pes de l'element actual a r7
-		cmp r5, r7					@;Comparem els tres bits de menys pes de l'element actual amb el primer element
-		bne .Exit					@;Si son diferents ves a la seccio exit
-		add r4, #1					@;Afegeix repeticio perque son iguals
-		b .Nord						@;Torna a començar el bucle de recorregut
+		@; Sección NORTE
+		.Norte:
+		cmp r1, #0					@; Comparamos con 0
+		ble .Exit					@; Si es menor o igual ve a la sección de salida
+		mov r8, #COLUMNS			@; Cargamos el valor de COLUMNS a r8
+		sub r6, r8					@; Pasamos al siguiente elemento
+		sub r1, #1					@; Modificamos el índice restando 1
+		ldrb r8, [r6]				@; Cargamos a r8 el contenido de memoria al que apunta r6 (siguiente elemento)
+		and r7, r8, #0x00000007		@; Tres bits de menos peso del elemento actual a r7
+		cmp r5, r7					@; Comparamos los tres bits de menos peso del elemento actual con el primer elemento
+		bne .Exit					@; Si son diferentes ve a la sección exit
+		add r4, #1					@; Añade repetición porque son iguales
+		b .Norte					@; Vuelve a empezar el bucle de recorrido
 		.Oest:
-		@;Seccio OEST
+		@; Sección OESTE
 		cmp r2, #0
 		ble .Exit
-		sub r6, #1 					@;Passem al següent element
-		sub r2, #1					@;Modifiquem l'index restant 1
-		ldrb r8, [r6]				@;Carreguem a r8 el contingut de memoria al que apunta r6 (següent element)
-		and r7, r8, #0x00000007		@;Tres bits de menys pes de l'element actual
-		cmp r5, r7					@;Comparem els tres bits de menys pes de l'element actual amb el primer element
-		bne .Exit					@;Si son diferents ves a la seccio exit
-		add r4, #1					@;Afegeix repeticio perque son iguals
+		sub r6, #1 					@; Pasamos al siguiente elemento
+		sub r2, #1					@; Modificamos el índice restando 1
+		ldrb r8, [r6]				@; Cargamos a r8 el contenido de memoria al que apunta r6 (siguiente elemento)
+		and r7, r8, #0x00000007		@; Tres bits de menos peso del elemento actual
+		cmp r5, r7					@; Comparamos los tres bits de menos peso del elemento actual con el primer elemento
+		bne .Exit					@; Si son diferentes ve a la sección exit
+		add r4, #1					@; Añade repetición porque son iguales
 		b .Oest
-		@;Seccio EXIT El programa sempre acabara aqui, per tant fem les operacions pertinents de sortida
+		@; Sección EXIT El programa siempre terminará aquí, por lo tanto, realizamos las operaciones pertinentes de salida
 		.Exit:
 		mov r0, r4
 		pop {r1-r11, pc}
-
 
 
 @;TAREA 1F;
@@ -154,107 +153,107 @@ baja_elementos:
 @;		R0 = 1 indica que se ha realizado algún movimiento. 
 baja_verticales:
 		push {r1-r11, lr}
-		@;add r4, #COLUMNS				Factor de correcció: La vista de la nds i la posicio en memoria de la matriu es troben desplaçades una fila
-		mov r10, #0						@;No haurem fet cap moviment fins que no es faci el contrari
-		mov r1, #ROWS					@;Carreguem index files
-		mov r2, #COLUMNS				@;Carreguem index columnes				
-		mla r3, r1, r2, r4				@;Anem a l'ultima posicio per tant, els index son els valors de les constants
-		sub r3, #1						@;Restem 1 per a ajustar (sen va una casella mes enlla de lultima posicio de la matriu)
-		sub r1, #1						@;fase 2IC:Restem 1 per a ajustar l'index (0-ROWS-1)
-		sub r2, #1						@;fase 2IC:Restem 1 per a ajustar l'index (0-COLUMNS-1)
-		@;BUCLE DE RECORREGUT DE LA MATRIU
+		@;add r4, #COLUMNS				Factor de corrección: La vista de la NDS y la posición en memoria de la matriz están desplazadas una fila
+		mov r10, #0						@;No hemos hecho ningún movimiento hasta que no se haga lo contrario
+		mov r1, #ROWS					@;Cargamos índice filas
+		mov r2, #COLUMNS				@;Cargamos índice columnas				
+		mla r3, r1, r2, r4				@;Vamos a la última posición, por lo tanto, los índices son los valores de las constantes
+		sub r3, #1						@;Restamos 1 para ajustar (se va una casilla más allá de la última posición de la matriz)
+		sub r1, #1						@;Fase 2IC: Restamos 1 para ajustar el índice (0-ROWS-1)
+		sub r2, #1						@;Fase 2IC: Restamos 1 para ajustar el índice (0-COLUMNS-1)
+		@;BUCLE DE RECORRIDO DE LA MATRIZ
 		.whilemove: 				
-		ldrb r8, [r3]					@;Carreguem a r8 el contingut de la posicio actual
-		cmp r1, #0						@;Mira si es la primera fila				
-		beq .primerafila				@;tracta primera fila
+		ldrb r8, [r3]					@;Cargamos a r8 el contenido de la posición actual
+		cmp r1, #0						@;Miramos si es la primera fila				
+		beq .primerafila				@;Trata primera fila
 		.segueix:
-		and r11, r8, #7					@;Netegem bits de tipus
-		cmp r11, #0						@;Comparem bits de menys pes amb 0
-		bne .notractes					@;Salta al final del while si l'element no es buit (passem a la seguent cel.la)
-		b .tractar						@;Sino tractem l'element 
-		@;SECCIO PRIMERA FILA (ELEMENTS A 0 PRIMERA FILA)
+		and r11, r8, #7					@;Limpiamos bits de tipo
+		cmp r11, #0						@;Comparamos bits de menos peso con 0
+		bne .notractes					@;Salta al final del while si el elemento no está vacío (pasamos a la siguiente celda)
+		b .tractar						@;Sino tratamos el elemento 
+		@;SECCIÓN PRIMERA FILA (ELEMENTOS A 0 PRIMERA FILA)
 		.primerafila:
-		mov r7, r3						@;Guardem la posicio en la que estem
-		mov r5, r1						@;fase 2IC: Utilitzem el temporal r5 per a poder calcular la fila on s'ha de crear l'sprite
+		mov r7, r3						@;Guardamos la posición en la que estamos
+		mov r5, r1						@;Fase 2IC: Utilizamos el temporal r5 para poder calcular la fila donde se debe crear el sprite
 		.bucle:
-		cmp r8, #15						@;Comparem amb 15
-		addeq r7, #COLUMNS				@;Desplacem cap a baix
-		addeq r5, #1					@;fase 2IC: sumem 1 per a actualitzar l'index
-		ldrb r8, [r7]					@;Carreguem contingut de la posicio de mes avall (o la mateixa si no hem trobat huecos)
-		cmp r8, #15						@;Compara amb 15
-		beq .bucle						@;Segueix baixant si trobes 15
-		and r11, r8, #7					@;corregeix bits
-		cmp r11, #0						@;Compara amb 0
-		bne .notractes					@;si no es element buit surt...
-		@;I sino hauras de generar nun aleatori
-		mov r0, #6						@;Li passem un 6 a la rutina mod random
-		bl mod_random					@;Cridem mod random (genera aleatori entre 0 i 5)
-		add r0, #1						@;Sumem 1 per a corregir 
+		cmp r8, #15						@;Comparamos con 15
+		addeq r7, #COLUMNS				@;Desplazamos hacia abajo
+		addeq r5, #1					@;Fase 2IC: Sumamos 1 para actualizar el índice
+		ldrb r8, [r7]					@;Cargamos contenido de la posición de más abajo (o la misma si no hemos encontrado huecos)
+		cmp r8, #15						@;Compara con 15
+		beq .bucle						@;Continua bajando si encuentras 15
+		and r11, r8, #7					@;Corregimos bits
+		cmp r11, #0						@;Compara con 0
+		bne .notractes					@;Si no es elemento vacío, sal al final...
+		@;Y sino tendrás que generar un aleatorio
+		mov r0, #6						@;Le pasamos un 6 a la rutina mod random
+		bl mod_random					@;Llamamos mod random (genera aleatorio entre 0 y 5)
+		add r0, #1						@;Sumamos 1 para corregir 
 		
 		
-		push {r0-r3}					@;fase 2IC: Salvem estat del registre r1
-		mov r1, #-1						@;fase 2IC: movem la fila on s'ha de crear l'sprite a r1 per a passar els paràmetres
-		bl crea_elemento				@;fase 2IC:	generacio del sprite (es passa per r0=tipus de gelatina, r1=fila, r2=columna)
+		push {r0-r3}					@;Fase 2IC: Salvamos estado del registro r1
+		mov r1, #-1						@;Fase 2IC: Movemos la fila donde se debe crear el sprite a r1 para pasar los parámetros
+		bl crea_elemento				@;Fase 2IC: Generación del sprite (se pasa por r0=tipo de gelatina, r1=fila, r2=columna)
 		mov r0, #-1
 		mov r1, r2
 		mov r2, r5
 		mov r3, r1
 		bl activa_elemento
-		pop {r0-r3}						@;fase 2IC: Recuperem estat del registre r1
+		pop {r0-r3}						@;Fase 2IC: Recuperamos estado del registro r1
 		
-		add r8, r0						@;Sumem la gelatina que hi havia (que sera 0, 8 o 16) al aleatori corresponent
-		strb r8, [r7]					@;Guardem l'element generat a la posicio que li toca
-		mov r10, #1						@;Sortida de parametres
-		b .notractes					@;Sortim d'aquesta seccio per a avançar
-		@;SECCIO ELEMENT BUIT
+		add r8, r0						@;Sumamos la gelatina que había (que será 0, 8 o 16) al aleatorio correspondiente
+		strb r8, [r7]					@;Guardamos el elemento generado en la posición que le toca
+		mov r10, #1						@;Salida de parámetros
+		b .notractes					@;Salimos de esta sección para avanzar
+		@;SECCIÓN ELEMENTO VACÍO
 		.tractar:
-		mov r5, r1						@;fase 2IC: Utilitzem el temporal r5 per a poder calcular la fila origen (paràmetre de activa_elemento)
-		mov r6, r3						@;Salvem la posicio tractada a r6					
-		.whiletractar:					@;Bucle de tractament
-		cmp r5, #0						@;fase 2IC: Si resulta que estem a la fila 0
-		beq .notractes					@;fase 2IC: torna a iterar perque te'n vas fora de la matriu
-		sub r6, #COLUMNS				@;restem el valor de columnes per accedir a la casella superior
-		sub r5, #1						@;fase 2IC: Restem 1 a l'index
-		ldrb r8, [r6]					@;Carreguem a r8 el contingut de la casella superior
-		cmp r8, #15						@;Si hi ha un "hueco"...
-		beq .whiletractar				@;...pugem una casella mes
-		cmp r8, #7						@;Mirem si hi ha un bloc fixe
-		beq .notractes					@;I sortim si n'hi ha un
-		and r9, r8, #7					@;mascara de bits
-		cmp r9, #0						@;Si es un element buit llavors... 
-		beq .notractes					@;...sortim
-		sub r12, r8, r9					@;i sino a la casella superior li treiem els bits de tipus
-		strb r12, [r6]					@;Guarda els bits de gelatina a la posicio on era (hem eliminat els de tipus) per tant quedara a 0, 8 o 16
-		ldrb r11, [r3]					@;Carreguem a r11 gelatina a tractar que sera 0, 8 o 16
-		add r6, r11, r9					@;Suma bits de la casella a tractar mes el tipus de la que baixa
+		mov r5, r1						@;Fase 2IC: Utilizamos el temporal r5 para poder calcular la fila origen (parámetro de activa_elemento)
+		mov r6, r3						@;Salvamos la posición tratada en r6					
+		.whiletractar:					@;Bucle de tratamiento
+		cmp r5, #0						@;Fase 2IC: Si resulta que estamos en la fila 0
+		beq .notractes					@;Fase 2IC: Vuelve a iterar porque te vas fuera de la matriz
+		sub r6, #COLUMNS				@;Restamos el valor de columnas para acceder a la casilla superior
+		sub r5, #1						@;Fase 2IC: Restamos 1 al índice
+		ldrb r8, [r6]					@;Cargamos a r8 el contenido de la casilla superior
+		cmp r8, #15						@;Si hay un "hueco"...
+		beq .whiletractar				@;...subimos una casilla más
+		cmp r8, #7						@;Miramos si hay un bloque fijo
+		beq .notractes					@;Y salimos si lo hay
+		and r9, r8, #7					@;Máscara de bits
+		cmp r9, #0						@;Si es un elemento vacío entonces... 
+		beq .notractes					@;...salimos
+		sub r12, r8, r9					@;Y sino a la casilla superior le quitamos los bits de tipo
+		strb r12, [r6]					@;Guarda los bits de gelatina en la posición donde estaba (hemos eliminado los de tipo) por lo tanto quedará en 0, 8 o 16
+		ldrb r11, [r3]					@;Cargamos a r11 gelatina a tratar que será 0, 8 o 16
+		add r6, r11, r9					@;Suma bits de la casilla a tratar más el tipo de la que baja
 		
-		push {r0-r4}					@;fase 2IC: salvem estat del resgistres per a la passada de parametres
-		mov r0, r5 						@;fase 2IC: r0=fila origen
-		mov r4, r1						@;fase 2IC: Salvo el valor de fila destí
-		mov r1, r2						@;fase 2IC: r1=columna origen
-		mov r3, r2						@;fase 2IC: r3=columna destí (serà la mateixa que la origen degut a que es un desplaçament vertical)
-		mov r2, r4						@;fase 2IC: r2=fila destí
-		bl activa_elemento				@;fase 2IC: fila origen, columna origen, fila destí, columna destí	
-		pop {r0-r4}						@;fase 2IC: recuperem estat del resgistres
+		push {r0-r4}					@;Fase 2IC: Salvamos estado de los registros para la pasada de parámetros
+		mov r0, r5 						@;Fase 2IC: r0=fila origen
+		mov r4, r1						@;Fase 2IC: Guardo el valor de fila destino
+		mov r1, r2						@;Fase 2IC: r1=columna origen
+		mov r3, r2						@;Fase 2IC: r3=columna destino (será la misma que la origen debido a que es un desplazamiento vertical)
+		mov r2, r4						@;Fase 2IC: r2=fila destino
+		bl activa_elemento				@;Fase 2IC: fila origen, columna origen, fila destino, columna destino	
+		pop {r0-r4}						@;Fase 2IC: recuperamos estado de los registros
 		
-		strb r6, [r3]					@;Guardaho a la casella tractada (la inferior)
-		mov r10, #1						@;Hem fet moviment per tant...
-		@;SECCIO AVANÇAR/TRACTAMENT D'INDEX
+		strb r6, [r3]					@;Guardamos en la casilla tratada (la inferior)
+		mov r10, #1						@;Hemos hecho movimiento por lo tanto...
+		@;SECCIÓN AVANZAR/TRACTAMIENTO DE ÍNDICE
 		.notractes:
-		sub r3, #1						@;Restem 1, com que les matrius en ARM són en realitat taules podem desplaçarnos restant 1 fins que l'element actual sigui la posicio base de la matriu
-		cmp r2, #0						@;Comprovem que l'index de columna no ha arribat a 0
-		bne .canvicolumna				@;Si no ha arribat a 0 canvia la columna
-		cmp r1, #0						@;si ha arribat a 0, Comparo fila amb 0
-		beq .Surt						@;i si tot es 0 ves a la sortida perque ja hem recorregut la matriu
-		mov r2, #COLUMNS				@;Si nomes la columna es 0, tornem a carregar el maxim numero de columnes...
+		sub r3, #1						@;Restamos 1, como que las matrices en ARM son en realidad tablas podemos desplazarnos restando 1 hasta que el elemento actual sea la posición base de la matriz
+		cmp r2, #0						@;Comprobamos que el índice de columna no ha llegado a 0
+		bne .canvicolumna				@;Si no ha llegado a 0 cambia la columna
+		cmp r1, #0						@;Si ha llegado a 0, Compara fila con 0
+		beq .Surt						@;Y si todo es 0 ve a la salida porque ya hemos recorrido la matriz
+		mov r2, #COLUMNS				@;Si solo la columna es 0, volvemos a cargar el máximo número de columnas...
 		sub r2, #1
-		sub r1, #1						@;...restem una fila i 
-		b .whilemove					@;passem a la següent cel·la...
+		sub r1, #1						@;...restamos una fila y 
+		b .whilemove					@;Pasamos a la siguiente celda...
 		.canvicolumna:
-		sub r2, #1						@;Resta 1 a columnes si encara no ha arribat a 0
-		b .whilemove					@;i passa a la següent cel·la...
+		sub r2, #1						@;Resta 1 a columnas si aún no ha llegado a 0
+		b .whilemove					@;Y pasa a la siguiente celda...
 		.Surt:
-		mov r0, r10						@;Sortida de parametres
+		mov r0, r10						@;Salida de parámetros
 		pop {r1-r11, pc}
 
 
@@ -268,69 +267,69 @@ baja_verticales:
 @;		R0 = 1 indica que se ha realizado algún movimiento. 
 baja_laterales:
 		push {r1-r11, lr}
-		mov r1, #ROWS				@;Carreguem index fila
-		mov r2, #COLUMNS			@;Carreguem index columna	
-		mla r3, r1, r2, r4			@;Apuntem a la primera posicio valida de la matriu
+		mov r1, #ROWS				@;Cargamos índice fila
+		mov r2, #COLUMNS			@;Cargamos índice columna	
+		mla r3, r1, r2, r4			@;Apuntamos a la primera posición válida de la matriz
 		sub r1, #1
 		sub r2, #1
-		mov r10, #0					@;No haurem fet cap moviment fins que no es faci el contrari
+		mov r10, #0					@;No hemos hecho ningún movimiento hasta que no se haga lo contrario
 
-		sub r3, #1					@;restem 1 per a corregir
+		sub r3, #1					@;Restamos 1 para corregir
 		.buclewhile:
-		ldrb r6, [r3]				@;Carreguem contingut a r6
+		ldrb r6, [r3]				@;Cargamos contenido a r6
 		cmp r6, #15
-		beq .passaseguent			@;Passem al següent element
+		beq .passaseguent			@;Pasamos al siguiente elemento
 		cmp r6, #7
-		beq .passaseguent			@;Passem al següent element
-		and r7, r6, #7					@;Netegem bits de gelatina
-		cmp r7, #0					@;Comparem amb 0
-		bne .passaseguent			@;Passem al següent element
-		mov r9, #0					@;posem flag a 0
-		@;Caselles de lesquerra
-		cmp r2, #0					@;mira si estas al limit esquerra de la matriu
-		beq .comprovadret			@;Si estas al limit de la matriu passa a dret directament
-		sub r5, r3, #COLUMNS		@;Restar columnes
-		sub r5, r5, #1				@;restem 1 per a ajustar
-		ldrb r8, [r5]				@;Carregar a r8 el contingut de la posicio que sha de moure
-		cmp r8, #7					@;comparem amb 7
-		beq .comprovadret			@;si no pots comprova lelement de la dreta
-		cmp r8, #15					@;comparem amb 15
-		beq .comprovadret			@;si no pots comprova lelement de la dreta
-		and r8, #7					@;Neteja bits de gelatina
-		cmp r8, #0					@;compara amb el 0 per a saber si lelement esta buit
-		addne r9, r9, #1			@;Afegeix al flag un 1
+		beq .passaseguent			@;Pasamos al siguiente elemento
+		and r7, r6, #7					@;Limpiamos bits de gelatina
+		cmp r7, #0					@;Comparamos con 0
+		bne .passaseguent			@;Pasamos al siguiente elemento
+		mov r9, #0					@;Ponemos flag a 0
+		@;Casillas de la izquierda
+		cmp r2, #0					@;Miramos si estás en el límite izquierdo de la matriz
+		beq .comprovadret			@;Si estás en el límite de la matriz, pasa a derecha directamente
+		sub r5, r3, #COLUMNS		@;Restar columnas
+		sub r5, r5, #1				@;Restamos 1 para ajustar
+		ldrb r8, [r5]				@;Cargar a r8 el contenido de la posición que se tiene que mover
+		cmp r8, #7					@;Comparamos con 7
+		beq .comprovadret			@;Si no puedes, comprueba el elemento de la derecha
+		cmp r8, #15					@;Comparamos con 15
+		beq .comprovadret			@;Si no puedes, comprueba el elemento de la derecha
+		and r8, #7					@;Limpiamos bits de gelatina
+		cmp r8, #0					@;Comparamos con 0 para saber si el elemento está vacío
+		addne r9, r9, #1			@;Añade al flag un 1
 		.comprovadret:
 		mov r11, #COLUMNS
 		sub r11, #1
-		cmp r2, r11					@;mira si estas al limit dret de la matriu
-		beq .fi						@; i sino tractem l'element esquerra
-		sub r5, r3, #COLUMNS		@;Restar columnes
-		add r5, r5, #1				@;Afegim 1 a l'index per 
-		ldrb r8, [r5]				@;carrega la posicio de la dreta
-		cmp r8, #7					@;comparem amb 7 
-		beq .fi						@;si no pots ves al fi
-		cmp r8, #15					@;comparem amb 15 
-		beq .fi						@;si no pots ves al fi
-		and r8, #7					@;Neteja bits de gelatina
-		cmp r8, #0					@;compara amb el 0 per a saber si lelement esta buit
-		addne r9, r9, #2			@;Afegeix dos al flag
+		cmp r2, r11					@;Miramos si estás en el límite derecho de la matriz
+		beq .fi						@;Y si no, tratamos el elemento izquierdo
+		sub r5, r3, #COLUMNS		@;Restar columnas
+		add r5, r5, #1				@;Añadimos 1 al índice para 
+		ldrb r8, [r5]				@;Cargar la posición de la derecha
+		cmp r8, #7					@;Comparamos con 7 
+		beq .fi						@;Si no puedes, ve al final
+		cmp r8, #15					@;Comparamos con 15 
+		beq .fi						@;Si no puedes, ve al final
+		and r8, #7					@;Limpiamos bits de gelatina
+		cmp r8, #0					@;Comparamos con 0 para saber si el elemento está vacío
+		addne r9, r9, #2			@;Añade dos al flag
 		.fi:
-		cmp r9, #1					@;Compara amb un 1 el flag
-		beq .Esquerra				@;Si 1 es pot baixar l'esquerra
-		cmp r9, #2					@;Compara amb 2 el flag
-		beq .Dreta					@;Si 2 es pot baixar el dret
-		cmp r9, #0					@;Compara amb 0 el flag
-		beq .passaseguent			@;passa al seguent si no hi ha cap element susceptible de per baixat
-		@;SECCIO D'ELECCIO ALEATORIA
-		@; Llavors el flag es 3 i podem baixar pels dos llocs, per tant generem laleatori
-		mov r0, #2					@;Carreguem un 2 a r0 (per a passar parametre)
-		bl mod_random				@;cridem mod random
+		cmp r9, #1					@;Compara con 1 el flag
+		beq .Esquerra				@;Si 1 se puede bajar la izquierda
+		cmp r9, #2					@;Compara con 2 el flag
+		beq .Dreta					@;Si 2 se puede bajar la derecha
+		cmp r9, #0					@;Compara con 0 el flag
+		beq .passaseguent			@;Pasa al siguiente si no hay ningún elemento susceptible de bajada
+		@;SECCIÓN DE ELECCIÓN ALEATORIA
+		@; Entonces el flag es 3 y podemos bajar por los dos lugares, por lo tanto, generamos el aleatorio
+		mov r0, #2					@;Cargamos un 2 a r0 (para pasar como parámetro)
+		bl mod_random				@;Llamamos a la función de módulo aleatorio
 		cmp r0, #0					@;Si no es 0			
-		bne .Dreta					@;Anem a la dreta arbitrariament
-		@;SECCIO ESQUERRA
+		bne .Dreta					@;Vamos a la derecha arbitrariamente
+		@;SECCIÓN IZQUIERDA
 		.Esquerra:
 		
-		push {r0-r5}				@;Funcio I
+		push {r0-r5}				@;Función I
 		mov r4, r1
 		mov r5, r2
 		sub r0, r4, #1
@@ -341,20 +340,20 @@ baja_laterales:
 		bl activa_elemento
 		pop {r0-r5}
 		
-		sub r5, r3, #COLUMNS		@;Restar columnes
-		sub r5, #1					@;restem 1 per a ajustar
-		ldrb r8, [r5]				@;Carregar a r8 el contingut de la posicio que sha de moure
+		sub r5, r3, #COLUMNS		@;Restar columnas
+		sub r5, #1					@;Restamos 1 para ajustar
+		ldrb r8, [r5]				@;Cargar a r8 el contenido de la posición que se tiene que mover
 		and r9, r8, #24				@;Bit clear
-		strb r9, [r5]				@;Guarda els bits de mes pes on estaven
-		sub r8, r9					@;obte el codi de menor pes
-		add r9, r8, r6				@;Carrega a r9 el contingut de la posicio actual (sera 0, 8 o 16) mes el codi de  menys pes
-		strb r9, [r3]				@;Guarda a la posicio actual
-		mov r10, #1					@;Passada de parametres
-		b .passaseguent				@;Sortim
-		@;SECCIO DRETA
+		strb r9, [r5]				@;Guarda los bits de más peso donde estaban
+		sub r8, r9					@;obtiene el código de menos peso
+		add r9, r8, r6				@;Carga a r9 el contenido de la posición actual (será 0, 8 o 16) más el código de menos peso
+		strb r9, [r3]				@;Guarda en la posición actual
+		mov r10, #1					@;Pase de parámetros
+		b .passaseguent				@;Salimos
+		@;SECCIÓN DERECHA
 		.Dreta:
 		
-		push {r0-r5}				@;Funcio I
+		push {r0-r5}				@;Función I
 		mov r4, r1
 		mov r5, r2
 		sub r0, r4, #1
@@ -364,32 +363,33 @@ baja_laterales:
 		bl activa_elemento
 		pop {r0-r5}
 		
-		sub r5, r3, #COLUMNS		@;Restar columnes
-		add r5, r5, #1				@;sumem 1 per a ajustar
-		ldrb r8, [r5]				@;Carregar a r8 el contingut de la posicio que sha de moure
+		sub r5, r3, #COLUMNS		@;Restar columnas
+		add r5, r5, #1				@;Sumamos 1 para ajustar
+		ldrb r8, [r5]				@;Cargar a r8 el contenido de la posición que se tiene que mover
 		and r9, r8, #24				@;Bit clear
-		strb r9, [r5]				@;Guarda els bits de mes pes on estaven
-		sub r8, r8, r9				@;obte el codi de menor pes
-		add r9, r8, r6				@;Carrega a r9 el contingut de la posicio actual (sera 0, 8 o 16) mes el codi de  menys pes
-		strb r9, [r3]				@;Guarda a la posicio actual
-		mov r10, #1					@;Passada de parametres
-		@;SECCIO AVANÇAR/TRACTAMENT D'INDEX
+		strb r9, [r5]				@;Guarda los bits de más peso donde estaban
+		sub r8, r8, r9				@;obtiene el código de menos peso
+		add r9, r8, r6				@;Carga a r9 el contenido de la posición actual (será 0, 8 o 16) más el código de menos peso
+		strb r9, [r3]				@;Guarda en la posición actual
+		mov r10, #1					@;Pase de parámetros
+		@;SECCIÓN AVANZAR/TRACTAMIENTO DE ÍNDICE
 		.passaseguent:
-		sub r3, r3, #1					@;restem 1 per decrementar lindex
-		cmp r2, #0						@;Comprovem que l'index de columna no ha arribat a 0
-		bne .passacolumna				@;Si no ha arribat a 0 canvia la columna
-		cmp r1, #1						@;si ha arribat a 0, Comparo fila amb 1
-		beq .Sortir						@;i si tot es el limit ves a la sortida perque ja hem recorregut la matriu
-		mov r2, #COLUMNS				@;Si nomes la columna es 1, tornem a carregar COLUMNS a columnes...
+		sub r3, r3, #1					@;Restamos 1 para decrementar el índice
+		cmp r2, #0						@;Comprobamos que el índice de columna no ha llegado a 0
+		bne .passacolumna				@;Si no ha llegado a 0, cambia la columna
+		cmp r1, #1						@;si ha llegado a 0, Compara fila con 1
+		beq .Sortir						@;y si todo es el límite, ve a la salida porque ya hemos recorrido la matriz
+		mov r2, #COLUMNS				@;Si solo la columna es 1, volvemos a cargar COLUMNS a columnas...
 		sub r2, #1
-		sub r1, r1, #1					@;...restem una fila una fila i 
-		b .buclewhile					@;passem a la següent cel·la...
+		sub r1, r1, #1					@;...restamos una fila y 
+		b .buclewhile					@;pasamos a la siguiente celda...
 		.passacolumna:
-		sub r2 ,r2, #1					@;suma 1 a columnes si encara no ha arribat a 1
-		b .buclewhile					@;i passa a la següent cel·la...
+		sub r2 ,r2, #1					@;sumamos 1 a columnas si aún no ha llegado a 1
+		b .buclewhile					@;y pasa a la siguiente celda...
 		.Sortir:
 		mov r0, r10	
 		pop {r1-r11,pc}
+
 
 
 @;:::RUTINAS DE SOPORTE:::

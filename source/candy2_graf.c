@@ -5,7 +5,7 @@
 	Funciones de inicialización de gráficos (ver 'candy2_main.c')
 
 	Analista-programador: santiago.romani@urv.cat
-	Programador tarea 2A: xxx.xxx@estudiants.urv.cat
+	Programador tarea 2A: sergi.vives@estudiants.urv.cat
 	Programador tarea 2B: yyy.yyy@estudiants.urv.cat
 	Programador tarea 2C: zzz.zzz@estudiants.urv.cat
 	Programador tarea 2D: uuu.uuu@estudiants.urv.cat

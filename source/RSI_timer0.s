@@ -1,7 +1,7 @@
 @;=                                                          	     	=
 @;=== RSI_timer0.s: rutinas para mover los elementos (sprites)		  ===
 @;=                                                           	    	=
-@;=== Programador tarea 2E: xxx.xxx@estudiants.urv.cat				  ===
+@;=== Programador tarea 2E: sergi.vives@estudiants.urv.cat				  ===
 @;=== Programador tarea 2G: yyy.yyy@estudiants.urv.cat				  ===
 @;=== Programador tarea 2H: zzz.zzz@estudiants.urv.cat				  ===
 @;=                                                       	        	=

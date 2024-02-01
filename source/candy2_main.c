@@ -6,7 +6,7 @@
 	(2º curso de Grado de Ingeniería Informática - ETSE - URV)
 	
 	Analista-programador: santiago.romani@urv.cat
-	Programador 1: xxx.xxx@estudiants.urv.cat
+	Programador 1: sergi.vives@estudiants.urv.cat
 	Programador 2: yyy.yyy@estudiants.urv.cat
 	Programador 3: zzz.zzz@estudiants.urv.cat
 	Programador 4: uuu.uuu@estudiants.urv.cat
@@ -125,7 +125,7 @@ int main(void)
 	return(0);
 }*/
 
-/* Programa principal: control general del juego */
+/* MAIN PRINCIPAL, TESTS */
 int main(void)
 {
 	int lapse = 0;				// contador de tiempo sin actividad del usuario
@@ -153,7 +153,7 @@ int main(void)
 		if (initializing)		//////	SECCIÓN DE INICIALIZACIÓN	//////
 		{
 			//inicializa_matriz(matrix, level);
-			copia_mapa(matrix, 8);
+			copia_mapa(matrix, 8); // PARA MAS TESTS
 			genera_sprites(matrix);
 			//genera_mapa1(matrix);
 			//genera_mapa2(matrix);
@@ -164,7 +164,7 @@ int main(void)
 			change = 0;
 			lapse = 0;
 			points = pun_obj[level];
-			/*if (hay_secuencia(matrix))			// si hay secuencias
+			if (hay_secuencia(matrix))			// si hay secuencias
 			{
 				elimina_secuencias(matrix, mat_mar);	// eliminarlas
 				points += calcula_puntuaciones(mat_mar);
@@ -172,7 +172,7 @@ int main(void)
 				falling = 1;							// iniciar bajada
 				fall_init = 1;
 			}
-			else change = 1;*/					//sino, revisar estado matriz
+			else change = 1;					//sino, revisar estado matriz
 			movements = max_mov[level];
 			gelees = contar_gelatinas(matrix);
 			actualizar_contadores(15);
@@ -190,12 +190,12 @@ int main(void)
 			{
 				/*if (hay_secuencia(matrix))		// si hay secuencias
 				{
-					elimina_secuencias(matrix, mat_mar);	// eliminarlas
-					points += calcula_puntuaciones(mat_mar);
+					//elimina_secuencias(matrix, mat_mar);	// eliminarlas
+					//points += calcula_puntuaciones(mat_mar);
 					falling = 1;				// volver a bajar
 					fall_init = 1;				// con velocidad inicial
-					gelees = contar_gelatinas(matrix);
-					actualizar_contadores(10);
+					//gelees = contar_gelatinas(matrix);
+					//actualizar_contadores(10);
 				}
 				else change = 1;*/				// sino, revisar estado matriz
 			}
@@ -207,7 +207,7 @@ int main(void)
 			{
 				intercambia_posiciones(matrix, mX, mY, dX, dY);
 				escribe_matriz(matrix);	  // muestra el movimiento por pantalla
-				/*if (hay_secuencia(matrix))	// si el movimiento es posible
+				if (hay_secuencia(matrix))	// si el movimiento es posible
 				{
 					elimina_secuencias(matrix, mat_mar);
 					borra_puntuaciones();
@@ -222,7 +222,7 @@ int main(void)
 				else						// si no es posible,
 				{							// deshacer el cambio
 					intercambia_posiciones(matrix, mX, mY, dX, dY);
-				}*/
+				}
 				intercambia_posiciones(matrix, mX, mY, dX, dY);
 				escribe_matriz(matrix);	// muetra las eliminaciones o el retorno
 			}
